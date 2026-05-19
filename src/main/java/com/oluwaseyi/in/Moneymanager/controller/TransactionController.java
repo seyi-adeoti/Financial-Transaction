@@ -2,6 +2,8 @@ package com.oluwaseyi.in.Moneymanager.controller;
 
 import com.oluwaseyi.in.Moneymanager.dto.TransactionRequest;
 import com.oluwaseyi.in.Moneymanager.dto.TransactionResponse;
+import com.oluwaseyi.in.Moneymanager.dto.TransactionSummaryResponse;
+import com.oluwaseyi.in.Moneymanager.dto.TransactionType;
 import com.oluwaseyi.in.Moneymanager.exception.ResourceNotFoundException;
 import com.oluwaseyi.in.Moneymanager.interfaces.TransactionService;
 import com.oluwaseyi.in.Moneymanager.mapper.TransactionMapper;
@@ -13,6 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,8 +25,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -62,14 +67,22 @@ public class TransactionController {
     }
 
     @GetMapping
-    @Operation(summary = "Get all transactions", description = "Retrieves a list of all financial transactions")
+    @Operation(summary = "Get transactions", description = "Retrieves transactions with optional filters for currency, type, category, date range, and description search")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Transactions retrieved successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid filter values"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<ApiResponse<List<TransactionResponse>>> getAllTransactions() {
-        logger.info("Fetching all transactions");
-        var transactions = transactionService.findAll();
+    public ResponseEntity<ApiResponse<List<TransactionResponse>>> getAllTransactions(
+            @RequestParam(required = false) String currency,
+            @RequestParam(required = false) TransactionType transactionType,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
+            @RequestParam(required = false, name = "description") String description) {
+        logger.info("Fetching transactions with filters: currency={}, type={}, category={}, fromDate={}, toDate={}, description={}",
+                currency, transactionType, category, fromDate, toDate, description);
+        var transactions = transactionService.findAllByFilter(currency, transactionType, category, fromDate, toDate, description);
         var responses = transactions.stream()
                 .map(transactionMapper::toResponse)
                 .toList();
@@ -77,6 +90,31 @@ public class TransactionController {
                 HttpStatus.OK.value(),
                 "Transactions retrieved successfully",
                 responses
+        );
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/summary")
+    @Operation(summary = "Get transaction summary", description = "Retrieves aggregated transaction totals and category breakdowns")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "Summary retrieved successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "Invalid filter values"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<ApiResponse<TransactionSummaryResponse>> getTransactionSummary(
+            @RequestParam(required = false) String currency,
+            @RequestParam(required = false) TransactionType transactionType,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
+            @RequestParam(required = false, name = "description") String description) {
+        logger.info("Fetching transaction summary with filters: currency={}, type={}, category={}, fromDate={}, toDate={}, description={}",
+                currency, transactionType, category, fromDate, toDate, description);
+        var summary = transactionService.getSummary(currency, transactionType, category, fromDate, toDate, description);
+        var response = new ApiResponse<>(
+                HttpStatus.OK.value(),
+                "Transaction summary retrieved successfully",
+                summary
         );
         return ResponseEntity.ok(response);
     }

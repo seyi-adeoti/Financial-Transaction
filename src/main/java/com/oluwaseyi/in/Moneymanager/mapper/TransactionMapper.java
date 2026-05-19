@@ -12,7 +12,10 @@ public class TransactionMapper {
         return new Transaction(
                 request.getDescription(),
                 request.getAmount(),
-                request.getCurrency()
+                request.getCurrency(),
+                request.getCategory(),
+                request.getTransactionType(),
+                request.getTransactionDate()
         );
     }
 
@@ -21,7 +24,10 @@ public class TransactionMapper {
                 entity.getId(),
                 entity.getDescription(),
                 entity.getAmount(),
-                entity.getCurrency()
+                entity.getCurrency(),
+                entity.getCategory(),
+                entity.getTransactionType(),
+                entity.getTransactionDate()
         );
     }
 
@@ -29,5 +35,8 @@ public class TransactionMapper {
         entity.setDescription(request.getDescription());
         entity.setAmount(request.getAmount());
         entity.setCurrency(request.getCurrency());
+        entity.setCategory(request.getCategory());
+        entity.setTransactionType(request.getTransactionType());
+        entity.setTransactionDate(request.getTransactionDate());
     }
 }
