@@ -1,5 +1,6 @@
 package com.oluwaseyi.in.Moneymanager.mapper;
 
+import com.oluwaseyi.in.Moneymanager.dto.ProfileResponse;
 import com.oluwaseyi.in.Moneymanager.dto.TransactionRequest;
 import com.oluwaseyi.in.Moneymanager.dto.TransactionResponse;
 import com.oluwaseyi.in.Moneymanager.entity.Transaction;
@@ -20,6 +21,14 @@ public class TransactionMapper {
     }
 
     public TransactionResponse toResponse(Transaction entity) {
+        ProfileResponse profileResponse = null;
+        if (entity.getProfile() != null) {
+            profileResponse = new ProfileResponse(
+                    entity.getProfile().getId(),
+                    entity.getProfile().getName(),
+                    entity.getProfile().getEmail()
+            );
+        }
         return new TransactionResponse(
                 entity.getId(),
                 entity.getDescription(),
@@ -27,7 +36,8 @@ public class TransactionMapper {
                 entity.getCurrency(),
                 entity.getCategory(),
                 entity.getTransactionType(),
-                entity.getTransactionDate()
+                entity.getTransactionDate(),
+                profileResponse
         );
     }
 

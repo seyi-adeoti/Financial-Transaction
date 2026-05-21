@@ -5,6 +5,8 @@ import com.oluwaseyi.in.Moneymanager.dto.TransactionResponse;
 import com.oluwaseyi.in.Moneymanager.dto.TransactionSummaryResponse;
 import com.oluwaseyi.in.Moneymanager.dto.TransactionType;
 import com.oluwaseyi.in.Moneymanager.exception.ResourceNotFoundException;
+import com.oluwaseyi.in.Moneymanager.entity.Profile;
+import com.oluwaseyi.in.Moneymanager.interfaces.ProfileService;
 import com.oluwaseyi.in.Moneymanager.interfaces.TransactionService;
 import com.oluwaseyi.in.Moneymanager.mapper.TransactionMapper;
 import com.oluwaseyi.in.Moneymanager.response.ApiResponse;
@@ -39,10 +41,12 @@ public class TransactionController {
     private static final Logger logger = LoggerFactory.getLogger(TransactionController.class);
 
     private final TransactionService transactionService;
+    private final ProfileService profileService;
     private final TransactionMapper transactionMapper;
 
-    public TransactionController(TransactionService transactionService, TransactionMapper transactionMapper) {
+    public TransactionController(TransactionService transactionService, ProfileService profileService, TransactionMapper transactionMapper) {
         this.transactionService = transactionService;
+        this.profileService = profileService;
         this.transactionMapper = transactionMapper;
     }
 
@@ -57,6 +61,11 @@ public class TransactionController {
             @Valid @RequestBody TransactionRequest request) {
         logger.info("Creating transaction with description: {}", request.getDescription());
         var transaction = transactionMapper.toEntity(request);
+        if (request.getProfileId() != null) {
+            Profile profile = profileService.findById(request.getProfileId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Profile not found with id: " + request.getProfileId()));
+            transaction.setProfile(profile);
+        }
         var created = transactionService.create(transaction);
         var response = new ApiResponse<>(
                 HttpStatus.CREATED.value(),
@@ -152,6 +161,11 @@ public class TransactionController {
             @Valid @RequestBody TransactionRequest request) {
         logger.info("Updating transaction with id: {}", id);
         var transaction = transactionMapper.toEntity(request);
+        if (request.getProfileId() != null) {
+            Profile profile = profileService.findById(request.getProfileId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Profile not found with id: " + request.getProfileId()));
+            transaction.setProfile(profile);
+        }
         var updated = transactionService.update(id, transaction);
         var response = new ApiResponse<>(
                 HttpStatus.OK.value(),

@@ -38,6 +38,9 @@ public class TransactionRequest {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate transactionDate;
 
+    @Schema(description = "Profile ID associated with the transaction", example = "1")
+    private Long profileId;
+
     public TransactionRequest() {
     }
 
@@ -97,5 +100,13 @@ public class TransactionRequest {
 
     public void setTransactionDate(LocalDate transactionDate) {
         this.transactionDate = transactionDate;
+    }
+
+    public Long getProfileId() {
+        return profileId;
+    }
+
+    public void setProfileId(Long profileId) {
+        this.profileId = profileId;
     }
 }

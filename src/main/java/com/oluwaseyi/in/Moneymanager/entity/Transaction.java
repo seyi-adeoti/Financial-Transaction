@@ -2,12 +2,17 @@ package com.oluwaseyi.in.Moneymanager.entity;
 
 import com.oluwaseyi.in.Moneymanager.dto.TransactionType;
 import com.oluwaseyi.in.Moneymanager.validation.ValidCurrency;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -42,6 +47,13 @@ public class Transaction {
 
     @NotNull(message = "Transaction date is required")
     private LocalDate transactionDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id")
+    private Profile profile;
+
+    @OneToOne(mappedBy = "transaction", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Expense expense;
 
     public Transaction() {
     }
@@ -110,5 +122,21 @@ public class Transaction {
 
     public void setTransactionDate(LocalDate transactionDate) {
         this.transactionDate = transactionDate;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+
+    public Expense getExpense() {
+        return expense;
+    }
+
+    public void setExpense(Expense expense) {
+        this.expense = expense;
     }
 }

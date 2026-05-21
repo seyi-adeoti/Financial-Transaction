@@ -29,11 +29,15 @@ public class TransactionResponse {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate transactionDate;
 
+    @Schema(description = "Profile details attached to the transaction")
+    private ProfileResponse profile;
+
     public TransactionResponse() {
     }
 
     public TransactionResponse(Long id, String description, Double amount, String currency,
-                               String category, TransactionType transactionType, LocalDate transactionDate) {
+                               String category, TransactionType transactionType, LocalDate transactionDate,
+                               ProfileResponse profile) {
         this.id = id;
         this.description = description;
         this.amount = amount;
@@ -41,6 +45,7 @@ public class TransactionResponse {
         this.category = category;
         this.transactionType = transactionType;
         this.transactionDate = transactionDate;
+        this.profile = profile;
     }
 
     public Long getId() {
@@ -97,5 +102,13 @@ public class TransactionResponse {
 
     public void setTransactionDate(LocalDate transactionDate) {
         this.transactionDate = transactionDate;
+    }
+
+    public ProfileResponse getProfile() {
+        return profile;
+    }
+
+    public void setProfile(ProfileResponse profile) {
+        this.profile = profile;
     }
 }

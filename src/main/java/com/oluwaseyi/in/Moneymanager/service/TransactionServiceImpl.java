@@ -125,6 +125,9 @@ public class TransactionServiceImpl implements TransactionService {
                     existing.setCategory(transaction.getCategory());
                     existing.setTransactionType(transaction.getTransactionType());
                     existing.setTransactionDate(transaction.getTransactionDate());
+                    if (transaction.getProfile() != null) {
+                        existing.setProfile(transaction.getProfile());
+                    }
                     return transactionRepository.save(existing);
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Transaction not found with id: " + id));
