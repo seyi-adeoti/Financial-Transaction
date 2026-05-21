@@ -1,6 +1,6 @@
 # Moneymanager
 
-A Spring Boot application for managing financial transactions, now with profiles and expense records.
+A Spring Boot application for managing financial transactions, with profiles and expense records.
 
 ## New feature: Expense and Profile support
 
@@ -51,6 +51,32 @@ This release adds the following relationships:
 
 - `GET /api/v1/expenses/{id}`
   - Retrieve an expense record by ID.
+
+## Authentication
+
+### Open endpoints
+
+- `POST /api/v1/auth/signup` — register a new user
+- `POST /api/v1/auth/login` — sign in and receive a JWT token
+- `POST /api/v1/auth/forgot-password` — request a password reset token
+- `POST /api/v1/auth/reset-password` — reset the password using the token
+
+### JWT usage
+
+- Include `Authorization: Bearer <token>` in each protected request.
+- Tokens are returned by `POST /api/v1/auth/login`.
+
+### Role-based access
+
+- `transactions` endpoints: `USER`, `MANAGER`, and `ADMIN`
+- `expenses` endpoints: `MANAGER` and `ADMIN`
+- `profiles` endpoints: `ADMIN` only
+
+### Default accounts
+
+- `admin` / `Admin123!` with role `ADMIN`
+- `manager` / `Manager123!` with role `MANAGER`
+- `user` / `User123!` with role `USER`
 
 ## Running the application
 
