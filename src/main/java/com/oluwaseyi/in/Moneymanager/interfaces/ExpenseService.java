@@ -12,4 +12,6 @@ public interface ExpenseService {
     List<Expense> findAll();
 
     Optional<Expense> findById(Long id);
+
+    Double sumAmountByProfileAndCategoryAndMonth(Long profileId, String category, int month, int year);
 }

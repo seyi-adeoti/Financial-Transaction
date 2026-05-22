@@ -20,15 +20,19 @@ public class ExpenseResponse {
     @Schema(description = "Profile ID associated with the expense", example = "1")
     private Long profileId;
 
+    @Schema(description = "Category ID associated with the expense", example = "2")
+    private Long categoryId;
+
     public ExpenseResponse() {
     }
 
-    public ExpenseResponse(Long id, String vendor, String description, Long transactionId, Long profileId) {
+    public ExpenseResponse(Long id, String vendor, String description, Long transactionId, Long profileId, Long categoryId) {
         this.id = id;
         this.vendor = vendor;
         this.description = description;
         this.transactionId = transactionId;
         this.profileId = profileId;
+        this.categoryId = categoryId;
     }
 
     public Long getId() {
@@ -69,5 +73,13 @@ public class ExpenseResponse {
 
     public void setProfileId(Long profileId) {
         this.profileId = profileId;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 }

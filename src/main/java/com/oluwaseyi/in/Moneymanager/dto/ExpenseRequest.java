@@ -23,14 +23,18 @@ public class ExpenseRequest {
     @NotNull(message = "Profile ID is required")
     private Long profileId;
 
+    @Schema(description = "Optional Category ID for this expense", example = "2")
+    private Long categoryId;
+
     public ExpenseRequest() {
     }
 
-    public ExpenseRequest(String vendor, String description, Long transactionId, Long profileId) {
+    public ExpenseRequest(String vendor, String description, Long transactionId, Long profileId, Long categoryId) {
         this.vendor = vendor;
         this.description = description;
         this.transactionId = transactionId;
         this.profileId = profileId;
+        this.categoryId = categoryId;
     }
 
     public String getVendor() {
@@ -63,5 +67,13 @@ public class ExpenseRequest {
 
     public void setProfileId(Long profileId) {
         this.profileId = profileId;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 }

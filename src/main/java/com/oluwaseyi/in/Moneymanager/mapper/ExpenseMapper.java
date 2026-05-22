@@ -14,7 +14,8 @@ public class ExpenseMapper {
                 entity.getVendor(),
                 entity.getDescription(),
                 entity.getTransaction().getId(),
-                entity.getProfile().getId()
+                entity.getProfile().getId(),
+                entity.getCategory() == null ? null : entity.getCategory().getId()
         );
     }
 
@@ -22,6 +23,7 @@ public class ExpenseMapper {
         Expense expense = new Expense();
         expense.setVendor(request.getVendor());
         expense.setDescription(request.getDescription());
+        // Category is set in controller (we need the Category entity)
         return expense;
     }
 }

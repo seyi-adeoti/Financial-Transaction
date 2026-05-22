@@ -35,6 +35,10 @@ public class Expense {
     @NotNull(message = "Profile is required")
     private Profile profile;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     public Expense() {
     }
 
@@ -83,5 +87,13 @@ public class Expense {
 
     public void setProfile(Profile profile) {
         this.profile = profile;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

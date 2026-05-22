@@ -1,14 +1,31 @@
 # Moneymanager
 
-A Spring Boot application for managing financial transactions, with profiles and expense records.
+MoneyManager is a simple personal finance manager built with Spring Boot.
+It helps users track transactions, expenses, profiles, categories, budgets, and notifications.
 
-## New feature: Expense and Profile support
+This app is designed to solve a common problem:
+people often lose control of spending because their expenses are scattered across receipts, bank statements, and memory.
+MoneyManager brings those records together, lets users attach expenses to transactions, set budget limits, and receive alerts when spending goes over budget.
 
-This release adds the following relationships:
+## What this app does
 
-- `Transaction` can be associated with a `Profile`.
-- `Expense` is tied to a `Transaction` and also associated with a `Profile`.
-- `Profile` holds ownership information for transactions and expenses.
+- Stores user profiles that own financial activity.
+- Records transactions with amounts, dates, currencies, and categories.
+- Creates expense records tied to a transaction and a profile.
+- Lets users define budgets per category and profile.
+- Exports and imports expense data via CSV.
+- Sends notification alerts when a budget is exceeded.
+- Can be configured to send email notifications, or it will log alerts if no mail server is set up.
+
+## Why this helps
+
+MoneyManager is useful for anyone who wants to:
+
+- keep track of where money is going,
+- understand spending by category,
+- set and monitor budgets,
+- import/export expense data from spreadsheets,
+- get notified when spending goes over a limit.
 
 ## Main API endpoints
 

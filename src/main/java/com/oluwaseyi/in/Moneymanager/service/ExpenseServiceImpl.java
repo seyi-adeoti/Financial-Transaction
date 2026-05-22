@@ -40,4 +40,10 @@ public class ExpenseServiceImpl implements ExpenseService {
         logger.info("Retrieving expense with id: {}", id);
         return expenseRepository.findById(id);
     }
+
+    @Override
+    public Double sumAmountByProfileAndCategoryAndMonth(Long profileId, String category, int month, int year) {
+        Double res = expenseRepository.sumAmountByProfileAndCategoryAndMonth(profileId, category, month, year);
+        return res == null ? 0.0 : res;
+    }
 }
