@@ -1,6 +1,6 @@
 package com.oluwaseyi.in.Moneymanager.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.Instant;
 
 @Entity
