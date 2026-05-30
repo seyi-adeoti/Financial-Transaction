@@ -1,6 +1,9 @@
 package com.oluwaseyi.in.Moneymanager.interfaces;
 
 import com.oluwaseyi.in.Moneymanager.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.lang.NonNull;
 
 import java.util.Optional;
 
@@ -17,4 +20,6 @@ public interface UserService {
     String createPasswordResetToken(User user);
 
     void updatePassword(User user, String newPassword);
+
+    Page<User> getAllUsers(@NonNull Pageable pageable);
 }

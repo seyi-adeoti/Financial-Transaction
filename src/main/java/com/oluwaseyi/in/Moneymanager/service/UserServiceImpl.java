@@ -4,6 +4,9 @@ import com.oluwaseyi.in.Moneymanager.entity.User;
 import com.oluwaseyi.in.Moneymanager.interfaces.UserService;
 import com.oluwaseyi.in.Moneymanager.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -59,5 +62,10 @@ public class UserServiceImpl implements UserService {
         user.setResetToken(null);
         user.setResetTokenExpiration(null);
         userRepository.save(user);
+    }
+
+    @Override
+    public Page<User> getAllUsers(@NonNull Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 }
