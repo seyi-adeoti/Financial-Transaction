@@ -11,20 +11,25 @@
 	<groupId>com.oluwaseyi.in</groupId>
 	<artifactId>Moneymanager</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name/>
-	<description/>
-	<url/>
+	<name>MoneyManager</name>
+	<description>Spring Boot personal finance manager with JWT authentication, budgets, transactions, and expense tracking.</description>
+	<url>https://github.com/oluwaseyi/Moneymanager</url>
 	<licenses>
-		<license/>
+		<license>
+			<name>MIT License</name>
+		</license>
 	</licenses>
 	<developers>
-		<developer/>
+		<developer>
+			<id>oluwaseyi</id>
+			<name>Oluwaseyi</name>
+		</developer>
 	</developers>
 	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
+		<connection>scm:git:git://github.com/oluwaseyi/Moneymanager.git</connection>
+		<developerConnection>scm:git:ssh://github.com/oluwaseyi/Moneymanager.git</developerConnection>
+		<tag>HEAD</tag>
+		<url>https://github.com/oluwaseyi/Moneymanager</url>
 	</scm>
 	<properties>
 		<java.version>17</java.version>

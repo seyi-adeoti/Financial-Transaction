@@ -16,7 +16,7 @@ public class Budget {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String category; // category name
+    private String category;
 
     private Double amount;
 
